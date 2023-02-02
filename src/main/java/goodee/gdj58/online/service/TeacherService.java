@@ -17,6 +17,13 @@ public class TeacherService {
 	// DI = new EmployeeMapper()
 	@Autowired private TeacherMapper teacherMapper;
 	
+	// 검색후 카운트
+	public int getTeacherCount(String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchWord", searchWord);
+		return teacherMapper.selectTeacherCount(paramMap);
+	}
+	
 	// 강사 삭제
 	public int removeTeacher(int teacherNo) {
 		return teacherMapper.deleteTeacher(teacherNo);
@@ -28,11 +35,12 @@ public class TeacherService {
 	}
 	
 	// 강사 리스트 
-	public List<Teacher> getTeacherList(int currentPage, int rowPerPage) {
+	public List<Teacher> getTeacherList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage-1)*rowPerPage;
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
 		return teacherMapper.selectTeacherList(paramMap);
 	}
 	

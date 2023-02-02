@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사원 등록</title>
 </head>
 <body>
 	<h1>사원추가</h1>
-	<div>${errorMsg}</div>	
+	<div>${errorMsg}</div>
 	<form method="post" action="${pageContext.request.contextPath}/employee/addEmp">
 		<table border="1">
 			<tr>

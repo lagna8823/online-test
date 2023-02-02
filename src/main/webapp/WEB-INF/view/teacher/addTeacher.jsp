@@ -9,7 +9,7 @@
 <body>
 	<h1>강사 등록</h1>
 	<div>${errorMsg}</div>	
-	<form method="post" action="${pageContext.request.contextPath}/teacher/addTeacher">
+	<form method="post" action="${pageContext.request.contextPath}/employee/teacher/addTeacher">
 		<table border="1">
 			<tr>
 				<td>teacherId</td>

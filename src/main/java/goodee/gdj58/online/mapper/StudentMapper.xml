@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.StudentMapper">
 	
+	
+	<select id="selectStudentCount" 
+		resultType="int"
+		parameterType="java.util.Map">
+		
+		SELECT COUNT(*)
+		FROM student
+		<where>
+			<if test="searchWord != null || searchWord !=''">
+				student_name like CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+	</select>
+	
 	<delete id="deleteStudent" parameterType="int">
 		DELETE FROM student
 		WHERE student_no = #{studentNo}
@@ -28,6 +42,11 @@
 			, student_id studentId
 			, student_name studentName
 		FROM student
+		<where>
+			<if test="searchWord != null || searchWord !=''">
+				student_name like CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
 		ORDER BY student_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

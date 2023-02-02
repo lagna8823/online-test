@@ -9,7 +9,7 @@
 <body>
 	<h1>학생 등록</h1>
 	<div>${errorMsg}</div>	
-	<form method="post" action="${pageContext.request.contextPath}/student/addStudent">
+	<form method="post" action="${pageContext.request.contextPath}/employee/student/addStudent">
 		<table border="1">
 			<tr>
 				<td>studentId</td>
