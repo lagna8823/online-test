@@ -21,12 +21,18 @@ public class TeacherLoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		log.debug("EmpLoginFilter");
+		log.debug("\u001B[31m"+"TeacherLoginFilter(강사 로그인 확인 중)");
 		
 		if(request instanceof HttpServletRequest) {
 			HttpSession session = ((HttpServletRequest)request).getSession();
+			// HttpServletRequest req = (HttpServletRequest)request;
+    		// HttpSession session = req.getSession();
+			
+			// 강사 로그인 후 사용
 			if(session.getAttribute("loginTeacher") == null) {
-				((HttpServletResponse)response).sendRedirect("/loginEmp");
+				String returnMsg = "restricted access"; // return 문구 
+				((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()
+						+ "/loginStudent?returnMsg="+returnMsg);
 				return;
 			}
 		} else {
