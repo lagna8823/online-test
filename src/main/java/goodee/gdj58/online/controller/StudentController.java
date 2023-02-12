@@ -25,6 +25,49 @@ public class StudentController {
 	@Autowired EmployeeService employeeService;
 	@Autowired IdService idService;
 	
+	// ==================== 학생 UI ====================
+	// 학생 pw 수정
+	@GetMapping("/student/modifyStudentPw")
+	public String modifyStudentPw() {
+		return "student/modifyStudentPw";
+	}
+	@PostMapping("/student/modifyStudentPw")
+	public String modifyStudentPw(HttpSession session
+							, @RequestParam(value="oldPw") String oldPw
+							, @RequestParam(value="newPw") String newPw) {
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		System.out.println(loginStudent.getStudentNo()+oldPw+newPw);
+		studentService.updateStudentPw(loginStudent.getStudentNo(), oldPw, newPw);
+		return "redirect:/Home";
+	}
+	
+	// 학생 로그인 폼
+	@GetMapping("/loginStudent")
+	public String loginEmp(Model model
+							, @RequestParam(value="returnMsg", defaultValue="") String returnMsg
+							, @RequestParam(value="failLoginStu",defaultValue="") String failLoginStu) { // 세션이 필요한 로직은 매개변수로 세션을 받아온다
+		log.debug("\u001B[31m"+"returnMsg : "+returnMsg);
+		if(!returnMsg.equals("")) { // 필터에서 걸러져 returnMsg를 받은 경우
+			model.addAttribute("returnMsg", returnMsg);
+		}
+		if(!failLoginStu.equals("")) {
+			log.debug("\u001B[31m 로그인실패 : "+failLoginStu);
+			model.addAttribute("failLoginStu",failLoginStu);
+		}
+		return "student/loginStudent";
+	}
+	// 학생 로그인 액션
+	@PostMapping("/loginStudent")
+	public String loginEmp(HttpSession session, Student student) { // 세션이 필요한 로직은 매개변수로 세션을 받아온다
+		Student resultStudent = studentService.login(student);
+		if(resultStudent == null) { // 로그인 실패
+			String failLoginStu = "failLoginStu";
+			return "redirect:/loginStudent?failLoginStu="+failLoginStu;
+		}
+		session.setAttribute("loginStudent", resultStudent);
+		return "redirect:/Home";
+	}
+		
 	// 학생 삭제
 	@GetMapping("/employee/student/removeStudent")
 	public String removeStudent(@RequestParam("studentNo") int studentNo) {
@@ -37,7 +80,7 @@ public class StudentController {
 	@GetMapping("/employee/student/addStudent")
 	public String addstudent() {
 		
-		return "student/addStudent"; // forword
+		return "employee/addStudent"; // forword
 	}
 	@PostMapping("/employee/student/addStudent")
 	public String addStudent(Model model, Student student) {
@@ -45,13 +88,13 @@ public class StudentController {
 		String idCheck = idService.getIdCheck(student.getStudentId());
 		if(idCheck != null) {
 			model.addAttribute("errorMsg", "중복된ID");
-			return "student/addStudent";
+			return "employee/addStudent";
 		}
 		
 		int row = studentService.addStudent(student);
 		if(row == 0) {
 			model.addAttribute("errorMsg", "시스템에러로 등록실패");
-			return "student/addStudent";
+			return "employee/addStudent";
 		}
 		
 		return "redirect:/employee/student/studentList"; // sendRedirect , CM -> C

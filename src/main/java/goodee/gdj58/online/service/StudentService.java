@@ -17,6 +17,23 @@ public class StudentService {
 	// DI = new EmployeeMapper()
 	@Autowired private StudentMapper studentMapper;
 	
+	
+	// ==================== 학생 UI ====================
+	// pw수정
+	public int updateStudentPw(int studentNo, String oldPw, String newPw) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("studentNo", studentNo);
+		paramMap.put("oldPw", oldPw);
+		paramMap.put("newPw", newPw);
+		System.out.println(paramMap.get("newPw"));
+		return studentMapper.updateStudentPw(paramMap);
+	}
+	
+	// 학생 로그인
+	public Student login(Student student) {
+		return studentMapper.login(student);
+	}
+		
 	// 검색후 카운트
 	public int getStudentCount(String searchWord) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

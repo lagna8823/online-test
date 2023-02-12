@@ -23,6 +23,47 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
+	// ==================== 강사 UI ====================
+	// 강사 pw 수정
+	@GetMapping("/teacher/modifyTeacherPw")
+	public String modifyTeacherPw() {
+		return "teacher/modifyTeacherPw";
+	}
+	@PostMapping("/teacher/modifyTeacherPw")
+	public String modifyTeacherPw(HttpSession session
+							, @RequestParam(value="oldPw") String oldPw
+							, @RequestParam(value="newPw") String newPw) {
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		System.out.println(loginTeacher.getTeacherNo()+oldPw+newPw);
+		teacherService.updateTeacherPw(loginTeacher.getTeacherNo(), oldPw, newPw);
+		return "redirect:/Home";
+	}
+	
+	// 강사 로그인
+	@GetMapping("/loginTeacher")
+	public String loginTeacher(Model model
+								, @RequestParam(value="teacherMsg", defaultValue="") String teacherMsg
+								, @RequestParam(value="failLoginTea",defaultValue="") String failLoginTea) {
+		if(!teacherMsg.equals("")) { // 필터에서 걸러져 teacherMsg를 받은 경우
+			model.addAttribute("teacherMsg", teacherMsg);
+		}
+		if(!failLoginTea.equals("")) {
+			log.debug("\u001B[31m 로그인실패 : "+failLoginTea);
+			model.addAttribute("failLoginTea",failLoginTea);
+		}
+		return "teacher/loginTeacher";
+	}
+	@PostMapping("/loginTeacher")
+	public String loginTeacher(HttpSession session, Teacher teacher) {
+		Teacher resultTeacher = teacherService.login(teacher);
+		if(resultTeacher == null) {
+			String failLoginTea = "failLoginTea";
+			return "redirect:/loginTeacher?failLoginTea="+failLoginTea;
+		}
+		session.setAttribute("loginTeacher", resultTeacher);
+		return "redirect:/Home";
+	}
+		
 	// 강사 삭제
 	@GetMapping("/employee/teacher/removeTeacher")
 	public String removeTeacher(@RequestParam("teacherNo") int teacherNo) {
@@ -35,7 +76,7 @@ public class TeacherController {
 	@GetMapping("/employee/teacher/addTeacher")
 	public String addTeacher() {
 		
-		return "teacher/addTeacher"; // forword
+		return "employee/addTeacher"; // forword
 	}
 	@PostMapping("/employee/teacher/addTeacher")
 	public String addTeacher(Model model, Teacher teacher) {
@@ -43,13 +84,13 @@ public class TeacherController {
 		String idCheck = idService.getIdCheck(teacher.getTeacherId());
 		if(idCheck != null) {
 			model.addAttribute("errorMsg", "중복된ID");
-			return "teacher/addTeacher";
+			return "employee/addTeacher";
 		}
 		
 		int row = teacherService.addTeacher(teacher);
 		if(row == 0) {
 			model.addAttribute("errorMsg", "시스템에러로 등록실패");
-			return "teacher/addTeacher";
+			return "employee/addTeacher";
 		}
 		
 		return "redirect:/employee/teacher/teacherList"; // sendRedirect , CM -> C

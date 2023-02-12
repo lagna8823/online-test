@@ -21,35 +21,51 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
 	@Autowired IdService idService;
-					
-	// pw수정 폼
+	
+	// ==================== 학생 UI ====================
+	// 직원 pw 수정 폼
 	@GetMapping("/employee/modifyEmpPw")
 	public String modifyEmpPw() {
 		return "employee/modifyEmpPw";
 	}
-	// pw수정 액션
+	// 직원 pw 수정 액션
 	@PostMapping("/employee/modifyEmpPw")
 	public String modifyEmpPw(HttpSession session
 							, @RequestParam(value="oldPw") String oldPw
 							, @RequestParam(value="newPw") String newPw) {
-		// 로그인 후 호출 가능
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
-		}
-		
-		employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
-		
-		return "redirect:/employee/empList";
+	// 로그인 후 호출 가능
+	Employee loginEmp = (Employee)session.getAttribute("loginEmp");
+	if(loginEmp == null) {
+		return "redirect:/employee/loginEmp";
 	}
 	
-	// 로그인 폼
+	employeeService.updateEmployeePw(loginEmp.getEmpNo(), oldPw, newPw);
+	
+	return "redirect:/employee/empList";
+	}
+	
+	// 직원 로그인 폼
 	@GetMapping("/loginEmp")
 	public String loginEmp() {
 		return "employee/loginEmp";
 	}
 	
-	// 로그인 액션
+	// 직원 로그아웃
+	@GetMapping("/employee/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/loginEmp";
+	}
+	
+	// 직원 삭제
+	@GetMapping("/employee/removeEmp")
+	public String removeEmp(@RequestParam("empNo") int empNo) {
+		
+		employeeService.removeEmployee(empNo);
+		return "redirect:/employee/empList"; // 리스트로 리다이렉트
+	}
+	
+	// 직원 로그인 액션
 	@PostMapping("/loginEmp")
 	public String loginEmp(HttpSession session, Employee emp) {
 		Employee resultEmp = employeeService.login(emp);
@@ -60,27 +76,8 @@ public class EmployeeController {
 		session.setAttribute("loginEmp", resultEmp);
 		return "redirect:/employee/empList";
 	}
-	
-	// 로그아웃
-	@GetMapping("/employee/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/loginEmp";
-	}
-	
-	/*
-	 *  로그인 후에 사용가능한 기능
-	 */
-	
-	// 삭제
-	@GetMapping("/employee/removeEmp")
-	public String removeEmp(@RequestParam("empNo") int empNo) {
 		
-		employeeService.removeEmployee(empNo);
-		return "redirect:/employee/empList"; // 리스트로 리다이렉트
-	}
-	
-	// 입력
+	// 직원 입력
 	@GetMapping("/employee/addEmp")
 	public String addEmp() {
 		
@@ -104,7 +101,7 @@ public class EmployeeController {
 		return "redirect:/employee/empList"; // sendRedirect , CM -> C
 	}
 		
-	// 리스트
+	// 직원 리스트
 	@GetMapping("/employee/empList")
 	public String empList(HttpSession session, Model model
 							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
