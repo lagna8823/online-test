@@ -21,7 +21,7 @@ public class EmpLoginFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		log.debug("\u001B[31m"+"EmpLoginFilter(직원 로그인 확인 중)");
+		log.debug("\u001B[33m"+"EmpLoginFilter(직원 로그인 확인 중)");
 
 		if(request instanceof HttpServletRequest) { // 웹브라우저일경우 형변환 (ServletRequest의 자식타입)
 			HttpServletRequest req = (HttpServletRequest)request;
@@ -37,7 +37,7 @@ public class EmpLoginFilter implements Filter{
 				return;
 			}
 		} else {
-			log.debug("웹브라우저 요청만 허용합니다");
+			log.debug("\u001B[31m"+"웹브라우저 요청만 허용합니다");
 			return; 
 		}
 			

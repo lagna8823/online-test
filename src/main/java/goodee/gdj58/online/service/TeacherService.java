@@ -10,12 +10,50 @@ import org.springframework.transaction.annotation.Transactional;
 
 import goodee.gdj58.online.mapper.TeacherMapper;
 import goodee.gdj58.online.vo.Teacher;
+import goodee.gdj58.online.vo.Test;
 
 @Service
 @Transactional
 public class TeacherService {
 	// DI = new EmployeeMapper()
 	@Autowired private TeacherMapper teacherMapper;
+	
+	
+	
+	// ==================== 시험( Test)====================
+	// Test 수정
+	public int modifyTest(Test test) {
+		return teacherMapper.updateTest(test);
+	}
+		
+	
+	// Test 삭제
+	public int removeTest(int testNo) {
+		return teacherMapper.deleteTest(testNo);
+	}
+	
+	// Test 등록
+	public int addTest(Test test) {
+		return teacherMapper.insertTest(test);
+	}
+		
+	// 검색 후 카운트
+	public int getTestCount(String searchWord) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchWord", searchWord);
+		return teacherMapper.selectTestCount(paramMap);
+	}
+	
+	// 시험 리스트
+	public List<Test> getTestList(int currentPage, int rowPerPage, String searchWord) {
+		int beginRow = (currentPage-1)*rowPerPage;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
+		return teacherMapper.selectTestList(paramMap);
+	}
+	
 	
 	// ==================== 강사 UI ====================
 	// 강사 pw 수정
@@ -59,5 +97,4 @@ public class TeacherService {
 		paramMap.put("searchWord", searchWord);
 		return teacherMapper.selectTeacherList(paramMap);
 	}
-	
 }

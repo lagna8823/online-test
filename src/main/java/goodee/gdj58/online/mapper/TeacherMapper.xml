@@ -2,6 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TeacherMapper">
 	
+	
+	<!--  ==================== 시험(Test) ==================== -->
+	
+	<!-- Test 수정 -->
+	<update id="updateTest"
+		parameterType="goodee.gdj58.online.vo.Test">
+		UPDATE test
+		SET test_title = #{testTitle}
+		WHERE test_no = #{testNo}
+	</update>
+	
+	<!-- Test 삭제 -->
+	<delete id="deleteTest" parameterType="int">
+		DELETE FROM test
+		WHERE test = #{testNo}
+	</delete>
+	
+	<!-- Test 입력 -->
+	<insert id="insertTest" parameterType="goodee.gdj58.online.vo.Test">
+		INSERT INTO test (
+			test_title
+			, test_date
+		) VALUES (
+			#{testTitle}
+			, CURDATE()
+		)
+	</insert>
+	
+	<!-- Test 리스트 검색후 카운트-->
+	<select id="selectTestCount" 
+		resultType="int"
+		parameterType="java.util.Map">
+		
+		SELECT COUNT(*)
+		FROM test
+		<where>
+			<if test="searchWord != null || searchWord !=''">
+				test_title like CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- Test 리스트 -->
+	<select id="selectTestList"
+		resultType="goodee.gdj58.online.vo.Test"
+		parameterType="java.util.Map">
+		
+		SELECT
+			test_no testNo
+			, test_title testTitle
+			, test_date testDate
+		FROM test
+		<where>
+			<if test="searchWord != null || searchWord !=''">
+				test_title like CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+		ORDER BY test_no DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	
 	<!--  ==================== 강사 UI ==================== -->
 	<!-- 강사 pw 수정 -->
 	<update id="updateTeacherPw"

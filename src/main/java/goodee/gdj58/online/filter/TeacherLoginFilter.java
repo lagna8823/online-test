@@ -21,7 +21,7 @@ public class TeacherLoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		log.debug("\u001B[31m"+"TeacherLoginFilter(강사 로그인 확인 중)");
+		log.debug("\u001B[33m"+"TeacherLoginFilter(강사 로그인 확인 중)");
 		
 		if(request instanceof HttpServletRequest) {
 			HttpSession session = ((HttpServletRequest)request).getSession();
@@ -36,7 +36,7 @@ public class TeacherLoginFilter implements Filter {
 				return;
 			}
 		} else {
-			log.debug("웹브라우저 요청만 허용합니다");
+			log.debug("\u001B[31m"+"웹브라우저 요청만 허용합니다");
 			return;
 		}
 		

@@ -64,6 +64,7 @@ public class StudentController {
 			String failLoginStu = "failLoginStu";
 			return "redirect:/loginStudent?failLoginStu="+failLoginStu;
 		}
+		log.debug("\u001B[33m"+"Student 로그인시도");
 		session.setAttribute("loginStudent", resultStudent);
 		return "redirect:/Home";
 	}

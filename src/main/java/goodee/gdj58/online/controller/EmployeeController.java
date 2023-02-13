@@ -72,7 +72,7 @@ public class EmployeeController {
 		if(resultEmp == null) { // 로그인 실패
 			return "redirect:/ㅣoginEmp";
 		}
-		log.debug("\u001B[31m"+"Emp 로그인되었습니다");
+		log.debug("\u001B[33m"+"Emp 로그인시도");
 		session.setAttribute("loginEmp", resultEmp);
 		return "redirect:/employee/empList";
 	}

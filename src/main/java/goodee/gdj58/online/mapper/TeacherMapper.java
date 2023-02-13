@@ -6,9 +6,17 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import goodee.gdj58.online.vo.Teacher;
+import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TeacherMapper {
+	
+	// ==================== 시험( Test)====================
+	int updateTest(Test test);
+	int deleteTest(int testNo);
+	int insertTest(Test test);
+	int selectTestCount(Map<String, Object> paramMap);
+	List<Test> selectTestList(Map<String, Object> paramMap);
 	
 	
 	// ==================== 강사 UI ====================
@@ -18,5 +26,4 @@ public interface TeacherMapper {
 	int deleteTeacher(int teacherNo);
 	int insertTeacher(Teacher teacher);
 	List<Teacher> selectTeacherList(Map<String, Object> paramMap);
-
 }

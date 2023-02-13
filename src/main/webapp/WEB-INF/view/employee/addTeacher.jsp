@@ -41,7 +41,7 @@
 				if(model=='YES') {
 					// 사용가능한 아이디
 					$('#teacherId').val($('#teacherId').val());
-					alert($('#empId').val()+'는 사용가능한 아이디입니다');
+					alert($('#teacherId').val()+'는 사용가능한 아이디입니다');
 				} else {
 					// 사용중인 아이디
 					alert($('#teacherId').val()+'는 사용중인 아이디입니다');

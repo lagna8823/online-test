@@ -15,6 +15,7 @@ import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.service.TeacherService;
 import goodee.gdj58.online.vo.Employee;
 import goodee.gdj58.online.vo.Teacher;
+import goodee.gdj58.online.vo.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,6 +23,82 @@ import lombok.extern.slf4j.Slf4j;
 public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
+	
+	// ==================== 시험( Test)====================
+	
+	// Test 수정
+	@GetMapping("/teacher/modifyTest")
+	public String modifyTest() {
+		
+		return "teacher/addTest"; // forword
+	}
+	@PostMapping("/teacher/modifyTest")
+	public String modifyTest(Model model, Test test) {
+		
+		int row = teacherService.modifyTest(test);
+		if(row == 0) {
+			model.addAttribute("errorMsg", "시스템에러로 등록실패");
+			return "teacher/modifyTest";
+		}
+		
+		return "redirect:/teacher/testList"; // sendRedirect , CM -> C
+	}
+	
+	// Test 삭제
+	@GetMapping("teacher/removeTest")
+	public String removeTest(@RequestParam("testNo") int testNo) {
+		
+		teacherService.removeTest(testNo);
+		return "redirect:/teacher/testList"; // 리스트로 리다이렉트
+	}
+	
+	// Test 입력
+	@GetMapping("/teacher/addTest")
+	public String addTest() {
+		
+		return "teacher/addTest"; // forword
+	}
+	@PostMapping("/teacher/addTest")
+	public String addTest(Model model, Test test) {
+		
+		int row = teacherService.addTest(test);
+		if(row == 0) {
+			model.addAttribute("errorMsg", "시스템에러로 등록실패");
+			return "teacher/addTest";
+		}
+		
+		return "redirect:/teacher/testList"; // sendRedirect , CM -> C
+	}
+
+	// Test 리스트
+	@GetMapping("/teacher/testList")
+	public String testList(Model model
+							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
+							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
+							, @RequestParam(value="searchWord", defaultValue="") String searchWord) { 
+		
+		log.debug("\u001B[31m"+currentPage+" <-- currentPage");
+		log.debug("\u001B[31m"+rowPerPage+" <-- rowPerPage");
+		log.debug("\u001B[31m"+searchWord+" <-- searchWord");
+		List<Test> list = teacherService.getTestList(currentPage, rowPerPage, searchWord);
+		int count = teacherService.getTestCount(searchWord);
+		int page = 10; // 페이징 목록 개수
+		int beginPage = ((currentPage - 1)/page) * page + 1; // 시작 페이지
+		int endPage = beginPage + page - 1; // 페이징 목록 끝
+		int lastPage = (int)Math.ceil((double)count / (double)rowPerPage); // 마지막 페이지
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}
+		
+		model.addAttribute("list", list); // request.setAttribute("list", list);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("rowPerPage", rowPerPage);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("beginPage", beginPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("lastPage", lastPage);
+		return "teacher/testList";
+	}
 	
 	// ==================== 강사 UI ====================
 	// 강사 pw 수정
@@ -51,6 +128,7 @@ public class TeacherController {
 			log.debug("\u001B[31m 로그인실패 : "+failLoginTea);
 			model.addAttribute("failLoginTea",failLoginTea);
 		}
+		
 		return "teacher/loginTeacher";
 	}
 	@PostMapping("/loginTeacher")
@@ -60,6 +138,7 @@ public class TeacherController {
 			String failLoginTea = "failLoginTea";
 			return "redirect:/loginTeacher?failLoginTea="+failLoginTea;
 		}
+		log.debug("\u001B[33m"+"Teacher 로그인시도");
 		session.setAttribute("loginTeacher", resultTeacher);
 		return "redirect:/Home";
 	}
