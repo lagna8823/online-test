@@ -21,13 +21,24 @@
 				<th>testDate</th>
 				<th>삭제</th>
 			</tr>
-			<c:forEach var="e" items="${list}">
+			<c:forEach var="t" items="${list}">
 				<tr>
-					<td>${e.testNo}</td>
-					<td>${e.testTitle}</td>
-					<td>${e.testDate}</td>
+					<td>${t.testNo}</td>
+				<c:choose>
+					<c:when test="${loginTeacher != null}">
+						<td>
+							<a href="${pageContext.request.contextPath}/teacher/testOne?testNo=${t.testNo}">${t.testTitle}</a>
+						</td>
+					</c:when>
+					<c:otherwise>
+						<td>
+							${t.testTitle}
+						</td>
+					</c:otherwise>
+				</c:choose>
+					<td>${t.testDate}</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/teacher/removeTest?teacherNo=${e.testNo}">
+						<a href="${pageContext.request.contextPath}/teacher/removeTest?testNo=${t.testNo}">
 							삭제
 						</a>
 					</td>

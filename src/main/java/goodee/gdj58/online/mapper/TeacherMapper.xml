@@ -16,7 +16,7 @@
 	<!-- Test 삭제 -->
 	<delete id="deleteTest" parameterType="int">
 		DELETE FROM test
-		WHERE test = #{testNo}
+		WHERE test_no = #{testNo}
 	</delete>
 	
 	<!-- Test 입력 -->
