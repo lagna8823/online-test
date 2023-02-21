@@ -136,7 +136,7 @@ public class TeacherController {
 		Teacher resultTeacher = teacherService.login(teacher);
 		if(resultTeacher == null) {
 			String failLoginTea = "failLoginTea";
-			return "redirect:/loginTeacher?failLoginTea="+failLoginTea;
+			return "redirect:teacher/loginTeacher?failLoginTea="+failLoginTea;
 		}
 		log.debug("\u001B[33m"+"Teacher 로그인시도");
 		session.setAttribute("loginTeacher", resultTeacher);
