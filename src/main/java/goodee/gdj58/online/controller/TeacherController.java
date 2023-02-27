@@ -41,7 +41,7 @@ public class TeacherController {
 			return "teacher/modifyTest";
 		}
 		
-		return "redirect:/teacher/testList"; // sendRedirect , CM -> C
+		return "redirect:/testList"; // sendRedirect , CM -> C
 	}
 	
 	// Test 삭제
@@ -49,7 +49,7 @@ public class TeacherController {
 	public String removeTest(@RequestParam("testNo") int testNo) {
 		
 		teacherService.removeTest(testNo);
-		return "redirect:/teacher/testList"; // 리스트로 리다이렉트
+		return "redirect:/testList"; // 리스트로 리다이렉트
 	}
 	
 	// Test 입력
@@ -67,11 +67,11 @@ public class TeacherController {
 			return "teacher/addTest";
 		}
 		
-		return "redirect:/teacher/testList"; // sendRedirect , CM -> C
+		return "redirect:/testList"; // sendRedirect , CM -> C
 	}
 
 	// Test 리스트
-	@GetMapping("/teacher/testList")
+	@GetMapping("/testList")
 	public String testList(Model model
 							, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 							, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
@@ -97,7 +97,7 @@ public class TeacherController {
 		model.addAttribute("beginPage", beginPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("lastPage", lastPage);
-		return "teacher/testList";
+		return "testList";
 	}
 	
 	// ==================== 강사 UI ====================

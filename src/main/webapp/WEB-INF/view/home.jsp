@@ -8,8 +8,12 @@
 </head>
 <body>
 	<!-- teacherMenu include -->
-		<div>
-			<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
-		</div>
+	<div>
+		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
+	</div>
+	<!-- studentMenu include -->
+	<div>
+		<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
+	</div>
 </body>
 </html>
