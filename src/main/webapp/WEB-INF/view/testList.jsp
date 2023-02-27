@@ -13,14 +13,26 @@
 		</div>
 		
 		<h1>Test List</h1>
-		<a href="${pageContext.request.contextPath}/teacher/addTest">시험 등록</a>
+		<c:if test="${loginTeacher != null && loginStudent == null}">
+			<a href="${pageContext.request.contextPath}/teacher/addTest">시험등록</a>
+		</c:if>
 		<table border="1">
-			<tr>
-				<th>testNo</th>
-				<th>testTitle</th>
-				<th>testDate</th>
-				<th>삭제</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>testNo</th>
+					<th>testTitle</th>
+					<th>testDate</th>
+					<c:if test="${loginStudent != null && loginTeacher == null}">
+						<th>응시하기</th>
+					</c:if>
+					<c:if test="${loginTeacher != null && loginStudent == null}">
+						<th>삭제</th>
+					</c:if>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<!-- 시험목록 출력 -->
 			<c:forEach var="t" items="${list}">
 				<tr>
 					<td>${t.testNo}</td>
@@ -37,13 +49,21 @@
 					</c:otherwise>
 				</c:choose>
 					<td>${t.testDate}</td>
+					<c:if test="${loginTeacher == null && loginStudent != null}">
+						<td>
+							<a href="${pageContext.request.contextPath}/student/examTest?testNo=${t.testNo}">문제풀기</a>
+						</td>	
+					</c:if>
+					<c:if test="${loginTeacher != null && loginStudent == null}">
 					<td>
 						<a href="${pageContext.request.contextPath}/teacher/removeTest?testNo=${t.testNo}">
 							삭제
 						</a>
 					</td>
+					</c:if>
 				</tr>
 			</c:forEach>
+			
 		</table>
 		
 		<!-- 검색 -->

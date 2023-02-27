@@ -7,7 +7,7 @@
 		개별시험회차 클릭하면 그 회차의 문제 리스트 출력(문제 CRUD)
 		개별문제 클릭하면 그 문제의 보기 리스트 출력(문제( CRUD)
 	-->
-	<a href="${pageContext.request.contextPath}/teacher/testList">시험관리</a>
+	<a href="${pageContext.request.contextPath}/testList">시험관리</a>
 	
 	<a href="${pageContext.request.contextPath}/teacher/logout">로그아웃</a>
 	

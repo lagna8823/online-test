@@ -8,12 +8,16 @@
 </head>
 <body>
 	<!-- teacherMenu include -->
+	<c:if test="${loginTeacher != null && loginStudent == null}">
 	<div>
 		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp"></c:import>
 	</div>
+	</c:if>
 	<!-- studentMenu include -->
+	<c:if test="${loginTeacher == null && loginStudent != null}">
 	<div>
 		<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp"></c:import>
 	</div>
+	</c:if>
 </body>
 </html>
