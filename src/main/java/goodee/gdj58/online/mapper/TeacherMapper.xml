@@ -2,9 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goodee.gdj58.online.mapper.TeacherMapper">
 	
+
+	<!-- ==================== 문제(TestOne)==================== -->
+	
+	<!-- Test 상세보기 (test한개 ) -->
+	<select id="selectLastQuestionNo"
+		resultType="int">
+		SELECT
+			question_no questionNo
+		FROM question
+		ORDER BY question_no DESC
+		LIMIT 0,1
+	</select>
+	
+	<!-- Test 상세보기 (test한개 ) -->
+	<select id="thisTest"
+		resultType="goodee.gdj58.online.vo.Test"
+		parameterType="int">
+		SELECT
+			test_no testNo
+			, test_title testTitle
+			, test_date testDate
+		FROM test
+		WHERE test_no = #{testNo}
+	</select>
+	
+	<!-- Test 상세보기 (답안지 보기) -->
+	<select id="selectAnswerList"
+		resultType="java.util.Map"
+		parameterType="int">
+		SELECT
+			q.question_idx questionIdx
+			, e.example_idx exampleIdx
+		FROM example e
+		INNER JOIN question q ON e.question_no = q.question_no
+		INNER JOIN test t ON q.test_no = t.test_no
+		WHERE t.test_no = #{testNo} AND e.example_ox = '정답'
+		ORDER BY q.question_idx ASC
+	</select>
+	
+	<!-- Test 상세보기 (문제당 보기) -->
+	<select id="selectExampleList"
+		resultType="java.util.Map"
+		parameterType="int">
+		SELECT
+			q.question_no questionNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+			, e.example_ox exampleOx
+		FROM question q
+		INNER JOIN example e ON e.question_no = q.question_no
+		WHERE q.test_no = #{testNo}
+		ORDER BY q.question_idx ASC, e.example_idx ASC
+	</select>
+	
 	
 	<!--  ==================== 시험(Test) ==================== -->
-	
 	<!-- Test 수정 -->
 	<update id="updateTest"
 		parameterType="goodee.gdj58.online.vo.Test">

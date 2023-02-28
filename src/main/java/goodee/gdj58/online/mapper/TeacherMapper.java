@@ -11,6 +11,14 @@ import goodee.gdj58.online.vo.Test;
 @Mapper
 public interface TeacherMapper {
 	
+	
+	// ==================== 문제(TestOne)====================
+	// Test 상세보기 (문제목록)
+	int selectLastQuestionNo(); 
+	Test thisTest(int testNo);
+	List<Map<String, Object>> selectAnswerList(int testNo);
+	List<Map<String,Object>> selectExampleList(int testNo);
+	
 	// ==================== 시험( Test)====================
 	int updateTest(Test test);
 	int deleteTest(int testNo);

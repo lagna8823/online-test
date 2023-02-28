@@ -67,7 +67,7 @@
 		</table>
 		
 		<!-- 검색 -->
-		<form method="get" action="${pageContext.request.contextPath}/teacher/testList">
+		<form method="get" action="${pageContext.request.contextPath}/testList">
 			<input type="text" name="searchWord" value="${searchWord}">
 			<button type="submit">제목검색</button>
 		</form>
@@ -77,30 +77,30 @@
 		<div>
 		
 			<!-- 페이지 1 처음으로 -->
-			<a href="${pageContext.request.contextPath }/teacher/testList?currentPage=1&searchWord=${searchWord}&rowPerPage=${rowPerPage}">Start</a>
+			<a href="${pageContext.request.contextPath }/testList?currentPage=1&searchWord=${searchWord}&rowPerPage=${rowPerPage}">Start</a>
 			
 			
 			<!-- 페이지 -10 이전 -->
 			<c:if test="${currentPage > 1 }"> 
-				<a href="${pageContext.request.contextPath}/teacher/testList?currentPage=${currentPage-10}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">-10</a>
+				<a href="${pageContext.request.contextPath}/testList?currentPage=${currentPage-10}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">-10</a>
 			</c:if>
 				
 		
 		
 			<!-- 페이지 1 ~ 10 -->
 			<c:forEach var="i" begin="${beginPage}" end="${endPage}" step="1">
-					<a href="${pageContext.request.contextPath}/teacher/testList?currentPage=${i}&searchWord=${searchWord}">${i}</a>
+					<a href="${pageContext.request.contextPath}/testList?currentPage=${i}&searchWord=${searchWord}">${i}</a>
 			</c:forEach>	
 			
 			
 			<!-- 페이지 +10 다음 -->
 			<c:if test="${currentPage < endPage }"> 
-				<a href="${pageContext.request.contextPath}/teacher/testList?currentPage=${currentPage+10}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">+10</a>
+				<a href="${pageContext.request.contextPath}/testList?currentPage=${currentPage+10}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">+10</a>
 			</c:if>
 			
 			
 			<!-- 페이지 마지막 -->
-			<a href="${pageContext.request.contextPath}/teacher/testList?currentPage=${lastPage}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">end</a>
+			<a href="${pageContext.request.contextPath}/testList?currentPage=${lastPage}&searchWord=${searchWord}&rowPerPage=${rowPerPage}">end</a>
 		</div>
 	</body>
 </html>

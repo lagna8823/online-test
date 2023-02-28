@@ -1,6 +1,7 @@
 package goodee.gdj58.online.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,8 +25,32 @@ public class TeacherController {
 	@Autowired TeacherService teacherService;
 	@Autowired IdService idService;
 	
-	// ==================== 시험( Test)====================
 	
+	// ==================== 문제(TestOne)====================
+	// Test 상세보기 (문제목록)
+	@GetMapping("/teacher/testOne")
+	public String testOne(Model model
+								, @RequestParam(value="testNo") int testNo) {
+		List<Map<String, Object>> list = teacherService.getExampleList(testNo);
+		List<Map<String, Object>> answerList = teacherService.getAnswerList(testNo);
+		Test thisTest = teacherService.thisTest(testNo);
+		int titleQstcnt = list.size() / 4;
+		int lastQeustionNo = teacherService.getLastQuestionNo();
+		
+		// 문제갯수
+		log.debug("\u001B[31m"+"총 문제 수 : "+titleQstcnt);
+		model.addAttribute("list", list);
+		model.addAttribute("answerList", answerList);
+		model.addAttribute("titleQstcnt", titleQstcnt);
+		model.addAttribute("thisTest", thisTest);
+		model.addAttribute("lastQeustionNo", lastQeustionNo);
+		return "teacher/testOne";
+		
+	}
+	
+	
+	
+	// ==================== 시험(Test)====================
 	// Test 수정
 	@GetMapping("/teacher/modifyTest")
 	public String modifyTest() {
@@ -69,7 +94,7 @@ public class TeacherController {
 		
 		return "redirect:/testList"; // sendRedirect , CM -> C
 	}
-
+ 
 	// Test 리스트
 	@GetMapping("/testList")
 	public String testList(Model model

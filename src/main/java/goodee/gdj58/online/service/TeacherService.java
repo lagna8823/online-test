@@ -19,6 +19,27 @@ public class TeacherService {
 	@Autowired private TeacherMapper teacherMapper;
 	
 	
+	// ==================== 문제(TestOne)====================\
+	
+	// Test 상세보기( 마지막 문제번호)
+	public int getLastQuestionNo() {
+		return teacherMapper.selectLastQuestionNo();
+	}
+	
+	// Test 상세보기 (시험 한개)
+	public Test thisTest(int testNo) {
+		return teacherMapper.thisTest(testNo);
+	}
+	
+	// Test 상세보기 (답안지목록)
+	public List<Map<String, Object>> getAnswerList(int testNo) {
+		return teacherMapper.selectAnswerList(testNo);
+	}
+	
+	// Test 상세보기 (문제목록)
+	public List<Map<String, Object>> getExampleList(int testNo) {
+		return teacherMapper.selectExampleList(testNo);
+	}
 	
 	// ==================== 시험( Test)====================
 	// Test 수정

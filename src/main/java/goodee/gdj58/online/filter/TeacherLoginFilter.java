@@ -32,7 +32,7 @@ public class TeacherLoginFilter implements Filter {
 			if(session.getAttribute("loginTeacher") == null) {
 				String returnMsg = "restricted access"; // return 문구 
 				((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()
-						+ "/loginStudent?returnMsg="+returnMsg);
+						+ "/loginTeacher?returnMsg="+returnMsg);
 				return;
 			}
 		} else {
