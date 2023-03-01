@@ -5,8 +5,8 @@
 
 	<!-- ==================== 문제(TestOne)==================== -->
 	
-	<!-- Test 상세보기 (test한개 ) -->
-	<select id="selectLastQuestionNo"
+	<!-- Test 상세보기 (마지막 문제번호  ) -->
+	<select id="selectLastQuestionNo" 
 		resultType="int">
 		SELECT
 			question_no questionNo
@@ -41,7 +41,7 @@
 		ORDER BY q.question_idx ASC
 	</select>
 	
-	<!-- Test 상세보기 (문제당 보기) -->
+	<!-- Test 상세보기 (문제당 문제와 보기) -->
 	<select id="selectExampleList"
 		resultType="java.util.Map"
 		parameterType="int">
