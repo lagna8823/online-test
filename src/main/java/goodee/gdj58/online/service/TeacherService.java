@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import goodee.gdj58.online.mapper.TeacherMapper;
+import goodee.gdj58.online.vo.Example;
+import goodee.gdj58.online.vo.Question;
 import goodee.gdj58.online.vo.Teacher;
 import goodee.gdj58.online.vo.Test;
 
@@ -20,6 +22,16 @@ public class TeacherService {
 	
 	
 	// ==================== 문제(TestOne)====================\
+	
+	// Test 상세보기( 문제 등록- Question)
+	public int addQuestion(Question question) {
+		return teacherMapper.insertQuestion(question);
+	}
+	
+	// Test 상세보기( 문제 등록 - Example)
+	public int addExample(Example example) {
+		return teacherMapper.insertExample(example);
+	}
 	
 	// Test 상세보기( 마지막 문제번호)
 	public int getLastQuestionNo() {

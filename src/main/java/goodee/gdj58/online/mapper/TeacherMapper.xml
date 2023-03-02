@@ -5,6 +5,35 @@
 
 	<!-- ==================== 문제(TestOne)==================== -->
 	
+	
+	<!-- Example 등록 -->
+	<insert id="insertExample" parameterType="goodee.gdj58.online.vo.Example">
+		INSERT INTO example(
+			question_no
+			, example_idx
+			, example_title
+			, example_ox
+		) VALUES (
+			#{questionNo}
+			, #{exampleIdx}
+			, #{exampleTitle}
+			, #{exampleOx}
+		)
+	</insert>
+
+	<!-- Question 등록 -->
+	<insert id="insertQuestion" parameterType="goodee.gdj58.online.vo.Test">
+		INSERT INTO question(
+			test_no
+			, question_idx
+			, question_title
+		) VALUES (
+			#{testNo}
+			, #{questionIdx}
+			, #{questionTitle}
+		)
+	</insert>
+	
 	<!-- Test 상세보기 (마지막 문제번호  ) -->
 	<select id="selectLastQuestionNo" 
 		resultType="int">

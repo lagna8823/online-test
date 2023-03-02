@@ -23,7 +23,7 @@
 			</form>
 		</div>
 					
-        <!-- 문제추가하기 -->
+        <!-- 문제 추가하기 -->
 		<h5>문제 추가</h5>
 		<div>
 			<form action="${pageContext.request.contextPath}/teacher/addQuestionExample" method="post">
