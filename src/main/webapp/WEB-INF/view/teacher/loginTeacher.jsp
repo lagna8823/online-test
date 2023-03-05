@@ -38,11 +38,13 @@
 			<form id="loginForm" action="${pageContext.request.contextPath}/loginTeacher" method="post">
 			        <!-- 아이디 -->				        
 			        <div>
+			        	<span>teacher Id</span>
 			            <input id="id" type="text" name="teacherId">
 			            <small id="idMsg"></small>
 			        </div>
 			        <!-- 패스워드 -->
-			        <div>
+		  	      <div>
+			     	    <span>teacherPw</span>
 			            <input id="pw" type="password" name="teacherPw">
 			            <small id="pwMsg"></small>
 			        </div>

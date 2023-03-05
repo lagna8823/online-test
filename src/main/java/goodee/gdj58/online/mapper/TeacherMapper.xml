@@ -5,6 +5,54 @@
 
 	<!-- ==================== 문제(TestOne)==================== -->
 	
+	<!-- example 수정하기 -->
+	<update id="modifyExample"
+		parameterType="java.util.Map">
+		UPDATE example
+		SET example_title = #{exampleTitle}
+			, example_ox = #{exampleOx}
+		WHERE example_no = #{exampleNo}
+	</update>
+	
+	<!-- question 수정하기 -->
+	<update id="modifyQuestion"
+		parameterType="java.util.Map">
+		UPDATE question
+		SET question_title = #{questionTitle}
+		WHERE question_no = #{questionNo}
+	</update>
+	
+	
+	<!-- question 의 example 일괄 삭제 -->
+	<delete id="deleteExample" parameterType="int">
+		DELETE FROM example
+		WHERE question_no = #{questionNo}
+	</delete>
+	
+	<!-- 수정을 위한 question One 불러오기 -->
+	<select id="oneQuestion" 
+		parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+			q.question_no questionNo
+			, q.test_no testNo
+			, q.question_idx questionIdx
+			, q.question_title questionTitle
+			, e.example_no exampleNo
+			, e.example_idx exampleIdx
+			, e.example_title exampleTitle
+			, e.example_ox exampleOx
+		FROM question q
+		INNER JOIN example e ON e.question_no = q.question_no
+		WHERE q.test_no = #{testNo} AND q.question_no = #{questionNo}
+		ORDER BY e.example_idx ASC
+	</select>
+	
+	<!-- question 삭제 -->
+	<delete id="deleteQuestion" parameterType="int">
+		DELETE FROM question
+		WHERE question_no = #{questionNo}
+	</delete>
 	
 	<!-- Example 등록 -->
 	<insert id="insertExample" parameterType="goodee.gdj58.online.vo.Example">

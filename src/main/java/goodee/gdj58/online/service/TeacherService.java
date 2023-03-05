@@ -23,6 +23,32 @@ public class TeacherService {
 	
 	// ==================== 문제(TestOne)====================\
 	
+	
+	// Test 상세보기( 문제 보기 수정 )
+	public int modifyExample(Example example) {
+		return teacherMapper.modifyExample(example);
+	}
+		
+	// Test 상세보기( 문네 수정 )
+	public int modifyQuestion(Question question) {
+		return teacherMapper.modifyQuestion(question);
+	}
+	
+	// oneQuestion
+	public List<Map<String,Object>> getOneQuestion(int testNo, int questionNo) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("testNo", testNo);
+		paramMap.put("questionNo", questionNo);
+		return teacherMapper.oneQuestion(paramMap);
+	}
+		
+	
+	// Test 상세보기( 문제 삭제 - Question,Example)
+	public int deleteQuestionExample(int questionNo) {
+		int deleteExample = teacherMapper.deleteExample(questionNo);
+		return teacherMapper.deleteQuestion(questionNo);
+	}
+	
 	// Test 상세보기( 문제 등록- Question)
 	public int addQuestion(Question question) {
 		return teacherMapper.insertQuestion(question);

@@ -16,6 +16,16 @@ public interface TeacherMapper {
 	
 	// ==================== 문제(TestOne)====================
 	
+	
+	// Test 상세보기 (문제, 보기 수정)
+	int modifyExample(Example example);
+	int modifyQuestion(Question question);
+	List<Map<String,Object>> oneQuestion(Map<String, Object> paramMap);
+	
+	// Test 상세보기(문제, 보기 삭제)
+	int deleteQuestion(int questionNo);
+	int deleteExample(int questionNo);
+	
 	// Test 상세보기 (문제, 보기 등록)
 	int insertExample(Example example);
 	int insertQuestion(Question question);
@@ -41,4 +51,5 @@ public interface TeacherMapper {
 	int deleteTeacher(int teacherNo);
 	int insertTeacher(Teacher teacher);
 	List<Teacher> selectTeacherList(Map<String, Object> paramMap);
+	
 }

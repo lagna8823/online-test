@@ -31,6 +31,59 @@ public class TeacherController {
 	
 	// ==================== 문제(TestOne)====================
 	
+	// Test 상세보기 (문제 수정)
+	@GetMapping("/teacher/modifyQuestion")
+	public String modifyQuestionExample(Model model
+											, @RequestParam(value="questionNo") int questionNo
+											, @RequestParam(value="testNo") int testNo){
+		List<Map<String,Object>> list = teacherService.getOneQuestion(testNo, questionNo);	
+		model.addAttribute("list",list);
+		
+		return "teacher/modifyQuestion";
+	}
+	@PostMapping("/teacher/modifyQuestion")
+	public String modifyQuestionExample(Question question
+										, @RequestParam(value="exampleNo") int[] exampleNo
+										, @RequestParam(value="exampleTitle") String[] exampleTitle
+										, @RequestParam(value="exampleOx") int exampleOx) {
+		int testNo = question.getTestNo();
+		// Question 수정
+		int modifyQuestion = teacherService.modifyQuestion(question);
+		if(modifyQuestion == 1) {
+			log.debug("\u001B[31m"+"qustionModify 성공");
+		}
+		// Example 수정
+		Example[] example = new Example[4];
+		log.debug("\u001B[31m"+"exampleLength : "+example.length);
+		for(int i=0; i<example.length; i++) {
+			example[i] = new Example();
+			example[i].setExampleNo(exampleNo[i]);
+			// log.debug("\u001B[31m"+"test : "+i);
+			log.debug("\u001B[31m"+"exampleNo : "+example[i].getExampleNo());
+			example[i].setExampleTitle(exampleTitle[i]);
+			log.debug("\u001B[31m"+"exampleTitle : "+example[i].getExampleTitle());
+			example[i].setExampleOx("오답");
+			if(exampleOx == (i+1)) {
+				log.debug("\u001B[31m"+i+"번 선택지가 정답으로 수정되었습니다.");
+				example[i].setExampleOx("정답");
+			} 
+			int modifyExample = teacherService.modifyExample(example[i]);
+			if(modifyExample == 1) {
+				log.debug("\u001B[31m"+"test : "+example[i]);
+				log.debug("\u001B[31m"+i+"번 선택지 수정 성공");
+			}
+		}		
+		return "redirect:/teacher/testOne?testNo="+testNo;
+	}
+	
+	// Test 상세보기(문제 삭제)
+	@GetMapping("/teacher/removeQuestion")
+	public String removeQuestionExample(@RequestParam(value="questionNo") int questionNo
+											,@RequestParam(value="testNo") int testNo){
+		teacherService.deleteQuestionExample(questionNo);
+		return "redirect:/teacher/testOne?testNo="+testNo;
+	}
+
 	// Test 상세보기(문제 등록)
 	@PostMapping("/teacher/addQuestionExample")
 	public String addQuestionExample(Question question
